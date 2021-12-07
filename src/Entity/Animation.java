@@ -23,8 +23,8 @@ public class Animation {
 		playedOnce = false;
 	}
 	
-	public void setDelay(long d) { delay = d;}
-	public void setFrame(int i) { currentFrame = i;}
+	public void setDelay(long d) { delay = d; }
+	public void setFrame(int i) { currentFrame = i; }
 	
 	public void update() {
 		
@@ -39,11 +39,27 @@ public class Animation {
 			currentFrame = 0;
 			playedOnce = true;
 		}
+		
 	}
 	
 	public int getFrame() { return currentFrame; }
-	public BufferedImage getImage() { return frames[currentFrame];}
-	public boolean hasPlayedOnce() { return playedOnce;}
-	
+	public BufferedImage getImage() { return frames[currentFrame]; }
+	public boolean hasPlayedOnce() { return playedOnce; }
 	
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

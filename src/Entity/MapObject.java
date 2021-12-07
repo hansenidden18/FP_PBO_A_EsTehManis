@@ -1,21 +1,20 @@
 package Entity;
 
+import Main.GamePanel;
 import TileMap.TileMap;
 import TileMap.Tile;
 
 import java.awt.Rectangle;
 
-import Main.GamePanel;
-
 public abstract class MapObject {
 	
-	// tiles
+	// tile stuff
 	protected TileMap tileMap;
 	protected int tileSize;
 	protected double xmap;
 	protected double ymap;
 	
-	// position and vect
+	// position and vector
 	protected double x;
 	protected double y;
 	protected double dx;
@@ -25,7 +24,7 @@ public abstract class MapObject {
 	protected int width;
 	protected int height;
 	
-	// collisioon box
+	// collision box
 	protected int cwidth;
 	protected int cheight;
 	
@@ -67,7 +66,7 @@ public abstract class MapObject {
 	// constructor
 	public MapObject(TileMap tm) {
 		tileMap = tm;
-		tileSize = tm.getTileSIze();
+		tileSize = tm.getTileSize(); 
 	}
 	
 	public boolean intersects(MapObject o) {
@@ -78,11 +77,11 @@ public abstract class MapObject {
 	
 	public Rectangle getRectangle() {
 		return new Rectangle(
-				(int) x - cwidth,
-				(int) y - cheight,
+				(int)x - cwidth,
+				(int)y - cheight,
 				cwidth,
 				cheight
-				);
+		);
 	}
 	
 	public void calculateCorners(double x, double y) {
@@ -91,7 +90,7 @@ public abstract class MapObject {
 		int rightTile = (int)(x + cwidth / 2 - 1) / tileSize;
 		int topTile = (int)(y - cheight / 2) / tileSize;
 		int bottomTile = (int)(y + cheight / 2 - 1) / tileSize;
-	
+		
 		int tl = tileMap.getType(topTile, leftTile);
 		int tr = tileMap.getType(topTile, rightTile);
 		int bl = tileMap.getType(bottomTile, leftTile);
@@ -101,8 +100,8 @@ public abstract class MapObject {
 		topRight = tr == Tile.BLOCKED;
 		bottomLeft = bl == Tile.BLOCKED;
 		bottomRight = br == Tile.BLOCKED;
+		
 	}
-	
 	
 	public void checkTileMapCollision() {
 		
@@ -155,51 +154,85 @@ public abstract class MapObject {
 				xtemp += dx;
 			}
 		}
-			
-			if(!falling) {
-				calculateCorners(x, ydest + 1);
-				if(!bottomLeft && !bottomRight) {
-					falling = true;
-				}
+		
+		if(!falling) {
+			calculateCorners(x, ydest + 1);
+			if(!bottomLeft && !bottomRight) {
+				falling = true;
 			}
-			
 		}
 		
-	public int getX() { return (int)x; }
-	public int getY() { return (int)y; }
+	}
+	
+	public int getx() { return (int)x; }
+	public int gety() { return (int)y; }
 	public int getWidth() { return width; }
 	public int getHeight() { return height; }
 	public int getCWidth() { return cwidth; }
-	public int getCHeight() { return cheight;}
+	public int getCHeight() { return cheight; }
 	
-	// set reg position
 	public void setPosition(double x, double y) {
 		this.x = x;
 		this.y = y;
 	}
-	
 	public void setVector(double dx, double dy) {
 		this.dx = dx;
 		this.dy = dy;
 	}
 	
-	// set map position
 	public void setMapPosition() {
 		xmap = tileMap.getx();
 		ymap = tileMap.gety();
 	}
 	
-	// set action
-	public void setLeft(boolean b) {left = b;}
-	public void setRight(boolean b) {right = b;}
-	public void setUp(boolean b) { up = b;}
-	public void setDown(boolean b) { down = b;}
-	public void setJumping(boolean b) { jumping = b;}
+	public void setLeft(boolean b) { left = b; }
+	public void setRight(boolean b) { right = b; }
+	public void setUp(boolean b) { up = b; }
+	public void setDown(boolean b) { down = b; }
+	public void setJumping(boolean b) { jumping = b; }
 	
 	public boolean notOnScreen() {
-		return x + xmap + width < 0 || x + xmap - width > GamePanel.WIDTH ||
-				y + ymap + height < 0 || y + ymap - height > GamePanel.HEIGHT;
+		return x + xmap + width < 0 ||
+			x + xmap - width > GamePanel.WIDTH ||
+			y + ymap + height < 0 ||
+			y + ymap - height > GamePanel.HEIGHT;
+	}
+	
+	public void draw(java.awt.Graphics2D g) {
+		if(facingRight) {
+			g.drawImage(
+				animation.getImage(),
+				(int)(x + xmap - width / 2),
+				(int)(y + ymap - height / 2),
+				null
+			);
+		}
+		else {
+			g.drawImage(
+				animation.getImage(),
+				(int)(x + xmap - width / 2 + width),
+				(int)(y + ymap - height / 2),
+				-width,
+				height,
+				null
+			);
+		}
 	}
 	
 }
-	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
