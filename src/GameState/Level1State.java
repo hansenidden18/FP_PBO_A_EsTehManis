@@ -22,6 +22,12 @@ public class Level1State extends GameState {
   private HUD hud;
 
   private AudioPlayer bgMusic;
+  private boolean eventFinish;
+	private boolean eventDead;
+  private boolean eventStart;
+  private ArrayList<Rectangle> tb;
+  private boolean blockInput = false;
+	private int eventCount = 0;
 
   public Level1State(GameStateManager gsm) {
     this.gsm = gsm;
@@ -39,6 +45,9 @@ public class Level1State extends GameState {
 
     player = new Player(tileMap);
     player.setPosition(100, 100);
+    player.setHealth(PlayerSave.getHealth());
+		player.setLives(PlayerSave.getLives());
+		player.setTime(PlayerSave.getTime());
 
     populateEnemies();
 
@@ -48,6 +57,10 @@ public class Level1State extends GameState {
 
     bgMusic = new AudioPlayer("/Music/level1-1.mp3");
     bgMusic.play();
+
+    eventStart = true;
+    tb = new ArrayList<Rectangle>();
+    eventStart();
   }
 
   private void populateEnemies() {
@@ -56,10 +69,10 @@ public class Level1State extends GameState {
     Slugger s;
     Point[] points = new Point[] {
       new Point(200, 100),
-      new Point(860, 200),
-      new Point(1525, 200),
-      new Point(1680, 200),
-      new Point(1800, 200),
+      new Point(800, 100),
+      new Point(1525, 100),
+      new Point(1680, 100),
+      new Point(1800, 100),
     };
     for (int i = 0; i < points.length; i++) {
       s = new Slugger(tileMap);
@@ -68,8 +81,104 @@ public class Level1State extends GameState {
     }
   }
 
+  private void reset() {
+		player.reset();
+		player.setPosition(300, 161);
+		populateEnemies();
+		blockInput = true;
+		eventCount = 0;
+		eventStart = true;
+		eventStart();
+	}
+
+  private void eventStart() {
+		eventCount++;
+		if(eventCount == 1) {
+			tb.clear();
+			tb.add(new Rectangle(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT / 2));
+			tb.add(new Rectangle(0, 0, GamePanel.WIDTH / 2, GamePanel.HEIGHT));
+			tb.add(new Rectangle(0, GamePanel.HEIGHT / 2, GamePanel.WIDTH, GamePanel.HEIGHT / 2));
+			tb.add(new Rectangle(GamePanel.WIDTH / 2, 0, GamePanel.WIDTH / 2, GamePanel.HEIGHT));
+		}
+		if(eventCount > 1 && eventCount < 60) {
+			tb.get(0).height -= 4;
+			tb.get(1).width -= 6;
+			tb.get(2).y += 4;
+			tb.get(3).x += 6;
+		}
+		if(eventCount == 60) {
+			eventStart = blockInput = false;
+			eventCount = 0;
+			tb.clear();
+		}
+	}
+
+  private void eventDead() {
+		eventCount++;
+		if(eventCount == 1) {
+			player.setDead();
+			player.stop();
+		}
+		if(eventCount == 60) {
+			tb.clear();
+			tb.add(new Rectangle(
+				GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2, 0, 0));
+		}
+		else if(eventCount > 60) {
+			tb.get(0).x -= 6;
+			tb.get(0).y -= 4;
+			tb.get(0).width += 12;
+			tb.get(0).height += 8;
+		}
+		if(eventCount >= 120) {
+			if(player.getLives() == 0) {
+				gsm.setState(GameStateManager.MENUSTATE);
+			}
+			else {
+				eventDead = blockInput = false;
+				eventCount = 0;
+				player.loseLife();
+				reset();
+			}
+		}
+	}
+
+  private void eventFinish() {
+		eventCount++;
+		if(eventCount == 1) {
+			player.stop();
+		}
+		else if(eventCount == 120) {
+			tb.clear();
+			tb.add(new Rectangle(
+				GamePanel.WIDTH / 2, GamePanel.HEIGHT / 2, 0, 0));
+		}
+		else if(eventCount > 120) {
+			tb.get(0).x -= 6;
+			tb.get(0).y -= 4;
+			tb.get(0).width += 12;
+			tb.get(0).height += 8;
+		}
+		if(eventCount == 180) {
+			PlayerSave.setHealth(player.getHealth());
+			PlayerSave.setLives(player.getLives());
+			PlayerSave.setTime(player.getTime());
+			gsm.setState(GameStateManager.LEVEL1STATE);
+		}
+		
+	}
   public void update() {
-    // update player
+
+    //if dead
+    if(player.getHealth() == 0 || player.gety() > tileMap.getHeight()) {
+			eventDead = blockInput = true;
+		}
+
+    if(eventStart) eventStart();
+		if(eventDead) eventDead();
+		if(eventFinish) eventFinish();
+
+     // update player
     player.update();
     tileMap.setPosition(
       GamePanel.WIDTH / 2 - player.getx(),
@@ -128,6 +237,11 @@ public class Level1State extends GameState {
 
     // draw hud
     hud.draw(g);
+
+    g.setColor(java.awt.Color.BLACK);
+		for(int i = 0; i < tb.size(); i++) {
+			g.fill(tb.get(i));
+		}
   }
 
   public void keyPressed(int k) {

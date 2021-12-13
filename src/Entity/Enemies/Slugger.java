@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class Slugger extends Enemy {
-
+  private double startx;
+  private double starty;
   private BufferedImage[] sprites;
 
   public Slugger(TileMap tm) {
@@ -21,6 +22,9 @@ public class Slugger extends Enemy {
     height = 30;
     cwidth = 20;
     cheight = 20;
+
+    startx = dx;
+    starty = dy;
 
     health = maxHealth = 2;
     damage = 1;
@@ -49,12 +53,12 @@ public class Slugger extends Enemy {
 
   private void getNextPosition() {
     // movement
-    if (left) {
+    if (right) {
       dx -= moveSpeed;
       if (dx < -maxSpeed) {
         dx = -maxSpeed;
       }
-    } else if (right) {
+    } else if (left) {
       dx += moveSpeed;
       if (dx > maxSpeed) {
         dx = maxSpeed;
@@ -82,7 +86,7 @@ public class Slugger extends Enemy {
     }
 
     // if it hits a wall, go other direction
-    if (right && dx == 0) {
+    if (right && dx == 0  ) {
       right = false;
       left = true;
       facingRight = false;

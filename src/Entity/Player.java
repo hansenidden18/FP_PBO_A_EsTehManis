@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 public class Player extends MapObject {
 
   // player stuff
+  private int lives;
   private int health;
   private int maxHealth;
   private int fire;
@@ -18,7 +19,7 @@ public class Player extends MapObject {
   private boolean dead;
   private boolean flinching;
   private long flinchTimer;
-
+  private long time;
   // fireball
   private boolean firing;
   private int fireCost;
@@ -45,6 +46,7 @@ public class Player extends MapObject {
   private static final int GLIDING = 4;
   private static final int FIREBALL = 5;
   private static final int SCRATCHING = 6;
+  private static final int DEAD = 7;
 
   private HashMap<String, AudioPlayer> sfx;
 
@@ -65,6 +67,7 @@ public class Player extends MapObject {
 
     facingRight = true;
 
+    lives = 3;
     health = maxHealth = 5;
     fire = maxFire = 2500;
 
@@ -128,6 +131,31 @@ public class Player extends MapObject {
   public void setGliding(boolean b) {
     gliding = b;
   }
+
+  public void setDead() {
+		health = 0;
+		stop();
+	}
+
+  public void reset() {
+		health = maxHealth;
+		facingRight = true;
+		currentAction = -1;
+		stop();
+	}
+
+  public void stop() {
+		left = right = up = down = flinching = 
+			gliding = jumping = firing = scratching = false;
+	}
+
+  public long getTime() { return time; }
+	public void setTime(long t) { time = t; }
+	public void setHealth(int i) { health = i; }
+	public void setLives(int i) { lives = i; }
+  public int getLives(){return lives; }
+	public void gainLife() { lives++; }
+	public void loseLife() { lives--; }
 
   public void checkAttack(ArrayList<Enemy> enemies) {
     // loop through enemies
@@ -276,7 +304,6 @@ public class Player extends MapObject {
         flinching = false;
       }
     }
-
     // set animation
     if (scratching) {
       if (currentAction != SCRATCHING) {
