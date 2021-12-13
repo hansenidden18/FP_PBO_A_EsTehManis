@@ -2,9 +2,10 @@ package Entity;
 
 import TileMap.TileMap;
 
-public class Enemy extends MapObject {
+public class Box extends MapObject {
 
   protected int health;
+  protected String message;
   protected int maxHealth;
   protected boolean dead;
   protected int damage;
@@ -12,7 +13,7 @@ public class Enemy extends MapObject {
   protected boolean flinching;
   protected long flinchTimer;
 
-  public Enemy(TileMap tm) {
+  public Box(TileMap tm) {
     super(tm);
   }
 
