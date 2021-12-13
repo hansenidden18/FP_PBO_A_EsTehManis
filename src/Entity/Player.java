@@ -284,7 +284,7 @@ public class Player extends MapObject {
         currentAction = SCRATCHING;
         animation.setFrames(sprites.get(SCRATCHING));
         animation.setDelay(50);
-        width = 60;
+        width = 30;
       }
     } else if (firing) {
       if (currentAction != FIREBALL) {
