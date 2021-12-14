@@ -133,29 +133,50 @@ public class Player extends MapObject {
   }
 
   public void setDead() {
-		health = 0;
-		stop();
-	}
+    health = 0;
+    stop();
+  }
 
   public void reset() {
-		health = maxHealth;
-		facingRight = true;
-		currentAction = -1;
-		stop();
-	}
+    health = maxHealth;
+    facingRight = true;
+    currentAction = -1;
+    stop();
+  }
 
   public void stop() {
-		left = right = up = down = flinching = 
-			gliding = jumping = firing = scratching = false;
-	}
+    left =
+      right =
+        up = down = flinching = gliding = jumping = firing = scratching = false;
+  }
 
-  public long getTime() { return time; }
-	public void setTime(long t) { time = t; }
-	public void setHealth(int i) { health = i; }
-	public void setLives(int i) { lives = i; }
-  public int getLives(){return lives; }
-	public void gainLife() { lives++; }
-	public void loseLife() { lives--; }
+  public long getTime() {
+    return time;
+  }
+
+  public void setTime(long t) {
+    time = t;
+  }
+
+  public void setHealth(int i) {
+    health = i;
+  }
+
+  public void setLives(int i) {
+    lives = i;
+  }
+
+  public int getLives() {
+    return lives;
+  }
+
+  public void gainLife() {
+    lives++;
+  }
+
+  public void loseLife() {
+    lives--;
+  }
 
   public void checkAttack(ArrayList<Enemy> enemies) {
     // loop through enemies

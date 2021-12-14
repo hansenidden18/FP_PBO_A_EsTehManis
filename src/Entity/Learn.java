@@ -28,11 +28,15 @@ public class Learn {
   public void draw(Graphics2D g) {
     if (open) {
       g.drawImage(image, 37, 93, null);
+      g.setFont(new Font("Arial", Font.PLAIN, 9));
+      g.setColor(Color.DARK_GRAY);
+      g.drawString(message, 45, 110);
       g.setFont(font);
       g.setColor(Color.BLACK);
-      g.drawString(message, 45, 110);
-      g.setColor(Color.RED);
       g.drawString(highlight, 45, 122);
+      g.setColor(Color.WHITE);
+      g.setFont(new Font("Arial", Font.PLAIN, 7));
+      g.drawString("Tekan 'enter' untuk melanjutkan ...", 160, 153);
     }
   }
 

@@ -191,7 +191,10 @@ public class Level1State extends GameState {
 
   private void populateBoxes() {
     Study[] materials = new Study[] {
-      new Study("a", "s"),
+      new Study(
+        "Selamat datang di Life of Prog(r)amer!",
+        "Gunakan arrow kiri dan kanan untuk bergerak"
+      ),
       new Study("a", "s"),
       new Study("a", "s"),
       new Study("a", "s"),
