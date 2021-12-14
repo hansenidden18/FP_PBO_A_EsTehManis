@@ -195,18 +195,23 @@ public class Level1State extends GameState {
         "Selamat datang di Life of Prog(r)amer!",
         "Gunakan arrow kiri dan kanan untuk bergerak"
       ),
-      new Study("a", "s"),
-      new Study("a", "s"),
-      new Study("a", "s"),
-      new Study("a", "s"),
+      new Study("Saat ini, bahasa pemrograman mencapai", "700 Bahasa!"),
+      new Study(
+        "Programming lama kelamaan akan sama pentingnya",
+        "dengan membaca lho!"
+      ),
+      new Study("Virus pertama Komputer adalah", "Creeper"),
+      new Study("Programming bisa membuat", "otak semakin cerdas"),
     };
 
     boxes = new ArrayList<Message>();
     Message s;
     Point[] points = new Point[] {
       new Point(120, 155),
-      new Point(350, 125),
-      new Point(365, 95),
+      new Point(800, 95),
+      new Point(1575, 95),
+      new Point(1680, 95),
+      new Point(1800, 95),
     };
     for (int i = 0; i < points.length; i++) {
       s =
