@@ -11,9 +11,6 @@ public class MenuState extends GameState {
   private int currentChoice = 0;
   private String[] options = { "Mulai", "Bantuan", "Keluar" };
 
-  private Color titleColor;
-  private Font titleFont;
-
   private Font font;
 
   public MenuState(GameStateManager gsm) {
@@ -21,7 +18,7 @@ public class MenuState extends GameState {
 
     try {
       bg = new Background("/Backgrounds/menubg.png", 1);
-      font = new Font("Montserrat", Font.PLAIN, 12);
+      font = new Font("Arial", Font.PLAIN, 12);
     } catch (Exception e) {
       e.printStackTrace();
     }

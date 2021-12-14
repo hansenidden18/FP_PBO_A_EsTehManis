@@ -5,7 +5,7 @@ import javax.swing.JFrame;
 public class Game {
 
   public static void main(String[] args) {
-    JFrame window = new JFrame("Life Of Porgrammer");
+    JFrame window = new JFrame("Life Of Programmer");
     window.setContentPane(new GamePanel());
     window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     window.setResizable(false);

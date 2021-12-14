@@ -36,7 +36,7 @@ public class Player extends MapObject {
 
   // animations
   private ArrayList<BufferedImage[]> sprites;
-  private final int[] numFrames = { 2, 8, 1, 2, 4, 2, 5 };
+  private final int[] numFrames = { 2, 6, 1, 2, 4, 2, 4 };
 
   // animation actions
   private static final int IDLE = 0;
