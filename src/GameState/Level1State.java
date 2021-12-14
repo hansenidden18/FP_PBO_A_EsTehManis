@@ -311,6 +311,7 @@ public class Level1State extends GameState {
     for (int i = 0; i < tb.size(); i++) {
       g.fill(tb.get(i));
     }
+
     //draw learn box
     learn.draw(g);
   }
