@@ -97,7 +97,7 @@ public class Level1State extends GameState {
 
   private void reset() {
     player.reset();
-    player.setPosition(300, 161);
+    player.setPosition(80, 161);
     populateEnemies();
     blockInput = true;
     eventCount = 0;
@@ -185,7 +185,7 @@ public class Level1State extends GameState {
       PlayerSave.setHealth(player.getHealth());
       PlayerSave.setLives(player.getLives());
       PlayerSave.setTime(player.getTime());
-      gsm.setState(GameStateManager.LEVEL1STATE);
+      gsm.setState(GameStateManager.MENUSTATE);
     }
   }
 
@@ -223,8 +223,12 @@ public class Level1State extends GameState {
 
   public void update() {
     //if dead
-    if (player.getHealth() == 0 || player.gety() > tileMap.getHeight()) {
+    if (player.getHealth() == 0 || player.gety() >= 210) {
       eventDead = blockInput = true;
+    }
+
+    if (player.getx() >= 5100) {
+      eventFinish = true;
     }
 
     if (eventStart) eventStart();
