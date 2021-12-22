@@ -83,10 +83,7 @@ public class Level1State extends GameState {
     Slugger s;
     Point[] points = new Point[] {
       new Point(200, 100),
-      new Point(800, 100),
-      new Point(1525, 100),
-      new Point(1680, 100),
-      new Point(1800, 100),
+      new Point(1000, 100),
     };
     for (int i = 0; i < points.length; i++) {
       s = new Slugger(tileMap);
